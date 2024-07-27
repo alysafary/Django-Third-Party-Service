@@ -19,7 +19,7 @@ class WhitelistedIPsForm(forms.ModelForm):
 
 @admin.register(AccessApiKey)
 class AccessApiKeyAdmin(admin.ModelAdmin):
-    list_display = ("key", "is_enable", "whitelisted_ips")
+    list_display = ("name", "key", "is_enable", "whitelisted_ips")
     search_fields = ("key", "scopes")
     filter_horizontal = ("scopes",)
     readonly_fields = ("key",)
@@ -29,9 +29,7 @@ class AccessApiKeyAdmin(admin.ModelAdmin):
 @admin.register(ApiKeyScopeView)
 class ApiKeyScopeViewAdmin(admin.ModelAdmin):
     restrict_access_to_developers = True
-    list_display = ("id", "name", "regex", "app")
-    list_filter = ("app",)
-    ordering = ("app",)
+    list_display = ("id", "name", "regex")
     search_fields = ("name", "url")
 
 

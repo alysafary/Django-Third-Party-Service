@@ -28,10 +28,10 @@ class IPAddressNotFoundError(APIException):
         self.default_detail = detail
 
 
-class ThirdPartyInvalidUUIDException(APIException):
+class ThirdPartyInvalidUsernameException(APIException):
     status_code = 400
 
-    def __init__(self, detail="Please enter a valid UUID"):
+    def __init__(self, detail="Please enter a valid Username"):
         self.default_code = "third_party_invalid_uuid"
         super().__init__(detail, self.default_code)
         self.default_detail = detail

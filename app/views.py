@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from app.exceptions import (
     IPAddressNotFoundError,
     APIKeyNotFoundError,
-    ThirdPartyInvalidUUIDException,
+    ThirdPartyInvalidUsernameException,
 )
 from app.models import AccessApiKey
 from app.permissions import IsApiKeyAuthenticated
@@ -27,7 +27,7 @@ class CheckAPIKeyAuthenticationApi(APIView):
         if not api_key or not access_api_key:
             raise APIKeyNotFoundError()
 
-        if not access_api_key.internal_api and ip not in access_api_key.whitelisted_ips:
+        if ip not in access_api_key.whitelisted_ips:
             raise IPAddressNotFoundError("ip address does not have access")
 
         resolver_match = resolve(request.path)
@@ -43,10 +43,10 @@ class GetUserInformationApi(GenericAPIView):
     queryset = User.objects.all()
 
     def get(self, request, *args, **kwargs):
-        uuid = request.data.get("uuid")
-        user = User.objects.filter(uuid=uuid).first()
+        username = request.data.get("username")
+        user = User.objects.filter(username=username).first()
         if not user:
-            raise ThirdPartyInvalidUUIDException()
+            raise ThirdPartyInvalidUsernameException()
 
         response_data = {
             "username": user.username,
